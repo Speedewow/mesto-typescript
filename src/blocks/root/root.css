@@ -1,0 +1,18 @@
+.root {
+	background-color: black;
+	font-family: 'Inter', sans-serif;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+	-webkit-text-size-adjust: 100%;
+	-ms-text-size-adjust: 100%;
+	-moz-text-size-adjust: 100%;
+	text-rendering: optimizeLegibility;
+	padding: 0 19px;
+	min-height: 100vh;
+}
+
+@media screen and (max-width: 879px) {
+	.root {
+		padding: 0;
+	}
+}
