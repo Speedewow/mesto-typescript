@@ -1,8 +1,23 @@
-export default function Input({ className, name, placeholder, type }) {
+export default function Input({
+	className,
+	name,
+	value,
+	handleChange,
+	validationMessage,
+	...rest
+}) {
 	return (
 		<>
-			<input className={`popup__input ${className}-input`} type={type} id={className} name={name} placeholder={placeholder} autoComplete="off" />
-			<span className={`popup__error ${className}-error`}></span>
+			<input
+				{...rest}
+				className={`popup__input ${className}-input`}
+				name={name}
+				value={value || ''}
+				onChange={handleChange}
+			/>
+			<span name={name} className={`popup__error ${className}-error`}>
+				{validationMessage}
+			</span>
 		</>
 	);
 }

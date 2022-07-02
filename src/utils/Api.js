@@ -26,34 +26,34 @@ class Api {
 		}).then(this._handleResponse);
 	}
 
-	setUserInfo(name, about) {
+	setUserInfo(formData) {
 		return fetch(`${this.link}/users/me`, {
 			method: 'PATCH',
 			headers: this.headers,
 			body: JSON.stringify({
-				name: `${name}`,
-				about: `${about}`,
+				name: `${formData.name}`,
+				about: `${formData.about}`,
 			}),
 		}).then(this._handleResponse);
 	}
 
-	createNewCard(name, link) {
+	createNewCard(formData) {
 		return fetch(`${this.link}/cards`, {
 			method: 'POST',
 			headers: this.headers,
 			body: JSON.stringify({
-				name: `${name}`,
-				link: `${link}`,
+				name: `${formData.name}`,
+				link: `${formData.link}`,
 			}),
 		}).then(this._handleResponse);
 	}
 
-	createNewAvatar(link) {
+	createNewAvatar(url) {
 		return fetch(`${this.link}/users/me/avatar`, {
 			method: 'PATCH',
 			headers: this.headers,
 			body: JSON.stringify({
-				avatar: `${link}`,
+				avatar: `${url.link}`,
 			}),
 		}).then(this._handleResponse);
 	}
@@ -68,19 +68,9 @@ class Api {
 		}).then(this._handleResponse);
 	}
 
-	addLike(id) {
+	changeLikeCardStatus(id, like) {
 		return fetch(`${this.link}/cards/${id}/likes`, {
-			method: 'PUT',
-			headers: this.headers,
-			body: JSON.stringify({
-				_id: `${id}`,
-			}),
-		}).then(this._handleResponse);
-	}
-
-	deleteLike(id) {
-		return fetch(`${this.link}/cards/${id}/likes`, {
-			method: 'DELETE',
+			method: like ? 'PUT' : 'DELETE',
 			headers: this.headers,
 			body: JSON.stringify({
 				_id: `${id}`,
