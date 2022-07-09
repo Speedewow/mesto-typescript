@@ -5,8 +5,8 @@
 	background-size: 16px;
 	background-position: center;
 	background-repeat: no-repeat;
-	background-color: black;
-	border: 2px solid white;
+	background-color: #000;
+	border: 2px solid #fff;
 	padding: 0;
 	cursor: pointer;
 }

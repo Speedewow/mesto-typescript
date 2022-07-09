@@ -1,41 +1,43 @@
-import Input from './Input';
-import PopupWithForm from './PopupWithForm';
+import { Input } from './Input';
+import { PopupWithForm } from './PopupWithForm';
 import { useContext, useState, useEffect } from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
-export default function EditProfilePopup({ isOpen, onUpdateUser, isLoading, onClose }) {
+export const EditProfilePopup = ({ isOpen, onUpdateUser, isLoading, onClose }) => {
 	const currentUser = useContext(CurrentUserContext);
 	const [values, setValues] = useState({});
 	const [errors, setErrors] = useState({});
-	const [isValid, setValid] = useState({});
+	const [validly, setValidly] = useState({});
 
 	useEffect(() => {
 		setValues({ name: currentUser.name, about: currentUser.about });
 		setErrors({ name: '', about: '' });
-		setValid({ name: true, about: true });
+		setValidly({ name: true, about: true });
 	}, [currentUser, isOpen]);
 
-	function handleChange(event) {
+	const handleChange = event => {
 		const { name, value, validity, validationMessage } = event.target;
 		setValues({ ...values, [name]: value });
 		setErrors({ ...errors, [name]: validationMessage });
-		setValid({ ...isValid, [name]: validity.valid });
-	}
+		setValidly({ ...validly, [name]: validity.valid });
+	};
 
-	function handleSubmit(e) {
+	const handleSubmit = e => {
 		e.preventDefault();
 		onUpdateUser(values, e);
-	}
+	};
+
+	const buttonText = isLoading ? 'Сохранение...' : 'Сохранить';
 
 	return (
 		<PopupWithForm
 			isOpen={isOpen}
 			name="profile"
 			title="Редактировать профиль"
-			buttonText={isLoading ? 'Сохранение...' : 'Сохранить'}
+			buttonText={buttonText}
 			onSubmit={handleSubmit}
 			onClose={onClose}
-			isDisabled={!(isValid.name && isValid.about)}
+			isDisabled={!(validly.name && validly.about)}
 		>
 			<Input
 				className="profile-name"
@@ -45,8 +47,8 @@ export default function EditProfilePopup({ isOpen, onUpdateUser, isLoading, onCl
 				value={values.name}
 				handleChange={handleChange}
 				required
-				minLength="2"
-				maxLength="40"
+				minLength={2}
+				maxLength={40}
 				autoComplete="off"
 				validationMessage={errors.name}
 			/>
@@ -59,11 +61,11 @@ export default function EditProfilePopup({ isOpen, onUpdateUser, isLoading, onCl
 				value={values.about}
 				handleChange={handleChange}
 				required
-				minLength="2"
-				maxLength="200"
+				minLength={2}
+				maxLength={200}
 				autoComplete="off"
 				validationMessage={errors.about}
 			/>
 		</PopupWithForm>
 	);
-}
+};

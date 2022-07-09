@@ -1,82 +1,84 @@
 import { config } from './utils';
-class Api {
-	constructor(config) {
-		this.link = config.link;
-		this.headers = config.headers;
+
+const handleResponse = res => {
+	if (res.ok) {
+		return res.json();
 	}
+	return Promise.reject('Ошибка');
+};
 
-	_handleResponse = res => {
-		if (res.ok) {
-			return res.json();
-		}
-		return Promise.reject('Ошибка');
-	};
+const getUserInfo = () => {
+	return fetch(`${config.link}/users/me`, {
+		method: 'GET',
+		headers: config.headers,
+	}).then(handleResponse);
+};
 
-	getUserInfo() {
-		return fetch(`${this.link}/users/me`, {
-			method: 'GET',
-			headers: this.headers,
-		}).then(this._handleResponse);
-	}
+const getInitialCard = () => {
+	return fetch(`${config.link}/cards`, {
+		method: 'GET',
+		headers: config.headers,
+	}).then(handleResponse);
+};
 
-	getInitialCard() {
-		return fetch(`${this.link}/cards`, {
-			method: 'GET',
-			headers: this.headers,
-		}).then(this._handleResponse);
-	}
+const setUserInfo = formData => {
+	return fetch(`${config.link}/users/me`, {
+		method: 'PATCH',
+		headers: config.headers,
+		body: JSON.stringify({
+			name: `${formData.name}`,
+			about: `${formData.about}`,
+		}),
+	}).then(handleResponse);
+};
 
-	setUserInfo(formData) {
-		return fetch(`${this.link}/users/me`, {
-			method: 'PATCH',
-			headers: this.headers,
-			body: JSON.stringify({
-				name: `${formData.name}`,
-				about: `${formData.about}`,
-			}),
-		}).then(this._handleResponse);
-	}
+const createNewCard = formData => {
+	return fetch(`${config.link}/cards`, {
+		method: 'POST',
+		headers: config.headers,
+		body: JSON.stringify({
+			name: `${formData.name}`,
+			link: `${formData.link}`,
+		}),
+	}).then(handleResponse);
+};
 
-	createNewCard(formData) {
-		return fetch(`${this.link}/cards`, {
-			method: 'POST',
-			headers: this.headers,
-			body: JSON.stringify({
-				name: `${formData.name}`,
-				link: `${formData.link}`,
-			}),
-		}).then(this._handleResponse);
-	}
+const createNewAvatar = url => {
+	return fetch(`${config.link}/users/me/avatar`, {
+		method: 'PATCH',
+		headers: config.headers,
+		body: JSON.stringify({
+			avatar: `${url.link}`,
+		}),
+	}).then(handleResponse);
+};
 
-	createNewAvatar(url) {
-		return fetch(`${this.link}/users/me/avatar`, {
-			method: 'PATCH',
-			headers: this.headers,
-			body: JSON.stringify({
-				avatar: `${url.link}`,
-			}),
-		}).then(this._handleResponse);
-	}
+const deleteCard = id => {
+	return fetch(`${config.link}/cards/${id}`, {
+		method: 'DELETE',
+		headers: config.headers,
+		body: JSON.stringify({
+			_id: `${id}`,
+		}),
+	}).then(handleResponse);
+};
 
-	deleteCard(id) {
-		return fetch(`${this.link}/cards/${id}`, {
-			method: 'DELETE',
-			headers: this.headers,
-			body: JSON.stringify({
-				_id: `${id}`,
-			}),
-		}).then(this._handleResponse);
-	}
+const changeLikeCardStatus = (id, like) => {
+	return fetch(`${config.link}/cards/${id}/likes`, {
+		method: like ? 'PUT' : 'DELETE',
+		headers: config.headers,
+		body: JSON.stringify({
+			_id: `${id}`,
+		}),
+	}).then(handleResponse);
+};
 
-	changeLikeCardStatus(id, like) {
-		return fetch(`${this.link}/cards/${id}/likes`, {
-			method: like ? 'PUT' : 'DELETE',
-			headers: this.headers,
-			body: JSON.stringify({
-				_id: `${id}`,
-			}),
-		}).then(this._handleResponse);
-	}
-}
-
-export const api = new Api(config);
+export {
+	getUserInfo,
+	getInitialCard,
+	setUserInfo,
+	createNewCard,
+	createNewAvatar,
+	deleteCard,
+	changeLikeCardStatus,
+};

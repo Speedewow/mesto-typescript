@@ -1,39 +1,39 @@
-import Input from './Input';
-import PopupWithForm from './PopupWithForm';
+import { Input } from './Input';
+import { PopupWithForm } from './PopupWithForm';
 import { useState, useEffect } from 'react';
 
-export default function EditAvatarPopup({ isOpen, onUpdateAvatar, isLoading, onClose }) {
+export const EditAvatarPopup = ({ isOpen, onUpdateAvatar, isLoading, onClose }) => {
 	const [values, setValues] = useState({});
 	const [errors, setErrors] = useState({});
-	const [isValid, setValid] = useState({});
+	const [validly, setValidly] = useState({});
 
 	useEffect(() => {
 		setValues({ link: '' });
 		setErrors({ link: '' });
-		setValid({ link: false });
+		setValidly({ link: false });
 	}, [isOpen]);
 
-	function handleChange(event) {
+	const handleChange = event => {
 		const { name, value, validity, validationMessage } = event.target;
 		setValues({ ...values, [name]: value });
 		setErrors({ ...errors, [name]: validationMessage });
-		setValid({ ...isValid, [name]: validity.valid });
-	}
+		setValidly({ ...validly, [name]: validity.valid });
+	};
 
-	function handleSubmit(e) {
+	const handleSubmit = e => {
 		e.preventDefault();
 		onUpdateAvatar(values, e);
-	}
-
+	};
+	const buttonText = isLoading ? 'Сохранение...' : 'Сохранить';
 	return (
 		<PopupWithForm
 			isOpen={isOpen}
 			name="avatar"
 			title="Обновить аватар"
-			buttonText={isLoading ? 'Сохранение...' : 'Сохранить'}
+			buttonText={buttonText}
 			onSubmit={handleSubmit}
 			onClose={onClose}
-			isDisabled={!isValid.link}
+			isDisabled={!validly.link}
 		>
 			<Input
 				className="avatar-link"
@@ -48,4 +48,4 @@ export default function EditAvatarPopup({ isOpen, onUpdateAvatar, isLoading, onC
 			/>
 		</PopupWithForm>
 	);
-}
+};

@@ -1,15 +1,8 @@
-export default function Input({
-	className,
-	name,
-	value,
-	handleChange,
-	validationMessage,
-	...rest
-}) {
+export const Input = ({ className, name, value, handleChange, validationMessage, ...props }) => {
 	return (
 		<>
 			<input
-				{...rest}
+				{...props}
 				className={`popup__input ${className}-input`}
 				name={name}
 				value={value || ''}
@@ -20,4 +13,4 @@ export default function Input({
 			</span>
 		</>
 	);
-}
+};

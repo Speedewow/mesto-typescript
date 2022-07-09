@@ -1,16 +1,24 @@
 import { useState, useEffect } from 'react';
-import Header from './Header';
-import Main from './Main';
-import Footer from './Footer';
-import EditAvatarPopup from './EditAvatarPopup';
-import EditProfilePopup from './EditProfilePopup';
-import AddNewPlacePopup from './AddNewPlacePopup';
-import ConfirmPopup from './ConfirmPopup';
-import ImagePopup from './ImagePopup';
-import { api } from '../utils/Api';
+import { Header } from './Header';
+import { Main } from './Main';
+import { Footer } from './Footer';
+import { EditAvatarPopup } from './EditAvatarPopup';
+import { EditProfilePopup } from './EditProfilePopup';
+import { AddNewPlacePopup } from './AddNewPlacePopup';
+import { ConfirmPopup } from './ConfirmPopup';
+import { ImagePopup } from './ImagePopup';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import {
+	getUserInfo,
+	getInitialCard,
+	setUserInfo,
+	createNewCard,
+	createNewAvatar,
+	deleteCard,
+	changeLikeCardStatus,
+} from '../utils/Api';
 
-function App() {
+export const App = () => {
 	const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
 	const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
 	const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
@@ -21,19 +29,17 @@ function App() {
 	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
-		api
-			.getUserInfo()
+		getUserInfo()
 			.then(user => setCurrentUser(user))
 			.catch(err => console.log(err));
-		api
-			.getInitialCard()
+		getInitialCard()
 			.then(cards => setCards(cards))
 			.catch(err => console.log(err));
 	}, []);
 
 	useEffect(() => {
 		function closeByKey(e) {
-			if (e.keyCode === 27) closeAllPopups(e);
+			if (e.key === 'Escape') closeAllPopups(e);
 		}
 		document.addEventListener('keydown', closeByKey);
 		return () => {
@@ -41,78 +47,68 @@ function App() {
 		};
 	}, []);
 
-	function handleCardLike(card) {
-		const isLiked = card.likes.some(i => i._id === currentUser._id);
-		api
-			.changeLikeCardStatus(card._id, !isLiked)
-			.then(newCard => setCards(state => state.map(c => (c._id === card._id ? newCard : c))))
+	const handleCardLike = card => {
+		const isLiked = card.likes.some(like => like._id === currentUser._id);
+		changeLikeCardStatus(card._id, !isLiked)
+			.then(newCard =>
+				setCards(state => state.map(element => (element._id === card._id ? newCard : element)))
+			)
 			.catch(err => console.log(err));
-	}
+	};
 
-	function handleCardDelete(card, e) {
+	const handleRequest = (argument, event, request, logic) => {
 		setLoading(true);
-		api
-			.deleteCard(card._id)
-			.then(setCards(state => state.filter(c => c._id !== card._id)))
-			.then(() => closeAllPopups(e))
+		request(argument)
+			.then(logic)
+			.then(() => closeAllPopups(event))
 			.catch(err => console.log(err))
 			.finally(() => setLoading(false));
-	}
+	};
 
-	function handleUpdateUser(formData, e) {
-		setLoading(true);
-		api
-			.setUserInfo(formData)
-			.then(update => setCurrentUser(update))
-			.then(() => closeAllPopups(e))
-			.catch(err => console.log(err))
-			.finally(() => setLoading(false));
-	}
+	const handleCardDelete = (card, e) => {
+		const logic = setCards(state => state.filter(element => element._id !== card._id));
+		handleRequest(card._id, e, deleteCard, logic);
+	};
 
-	function handleUpdateAvatar(url, e) {
-		setLoading(true);
-		api
-			.createNewAvatar(url)
-			.then(update => setCurrentUser(update))
-			.then(() => closeAllPopups(e))
-			.catch(err => console.log(err))
-			.finally(() => setLoading(false));
-	}
+	const handleUpdateUser = (formData, e) => {
+		const logic = update => setCurrentUser(update);
+		handleRequest(formData, e, setUserInfo, logic);
+	};
 
-	function handleAddPlace(formData, e) {
-		setLoading(true);
-		api
-			.createNewCard(formData)
-			.then(card => setCards([card, ...cards]))
-			.then(() => closeAllPopups(e))
-			.catch(err => console.log(err))
-			.finally(() => setLoading(false));
-	}
+	const handleUpdateAvatar = (url, e) => {
+		const logic = update => setCurrentUser(update);
+		handleRequest(url, e, createNewAvatar, logic);
+	};
 
-	function handleEditAvatarClick() {
+	const handleAddPlace = (formData, e) => {
+		const logic = card => setCards([card, ...cards]);
+		handleRequest(formData, e, createNewCard, logic);
+	};
+
+	const handleEditAvatarClick = () => {
 		setEditAvatarPopupOpen(true);
-	}
-	function handleEditProfileClick() {
+	};
+	const handleEditProfileClick = () => {
 		setEditProfilePopupOpen(true);
-	}
-	function handleAddPlaceClick() {
+	};
+	const handleAddPlaceClick = () => {
 		setAddPlacePopupOpen(true);
-	}
-	function handleConfirmPopupClick(card) {
+	};
+	const handleConfirmPopupClick = card => {
 		setDeletedCard({ ...card, isOpen: true });
-	}
-	function handleCardClick(card) {
+	};
+	const handleCardClick = card => {
 		setSelectedCard({ ...card, isOpen: true });
-	}
+	};
 
-	function closeAllPopups(e) {
+	const closeAllPopups = e => {
 		e.preventDefault();
 		setEditAvatarPopupOpen(false);
 		setEditProfilePopupOpen(false);
 		setAddPlacePopupOpen(false);
 		setSelectedCard({});
 		setDeletedCard({});
-	}
+	};
 
 	return (
 		<>
@@ -156,5 +152,4 @@ function App() {
 			</CurrentUserContext.Provider>
 		</>
 	);
-}
-export default App;
+};

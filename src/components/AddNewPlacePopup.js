@@ -1,38 +1,41 @@
-import Input from './Input';
-import PopupWithForm from './PopupWithForm';
+import { Input } from './Input';
+import { PopupWithForm } from './PopupWithForm';
 import { useState, useEffect } from 'react';
-export default function AddNewPlacePopup({ isOpen, onAddPlace, isLoading, onClose }) {
+
+export const AddNewPlacePopup = ({ isOpen, onAddPlace, isLoading, onClose }) => {
 	const [values, setValues] = useState({});
 	const [errors, setErrors] = useState({});
-	const [isValid, setValid] = useState({});
+	const [validly, setValidly] = useState({});
 
 	useEffect(() => {
 		setValues({ name: '', link: '' });
 		setErrors({ name: '', link: '' });
-		setValid({ name: false, link: false });
+		setValidly({ name: false, link: false });
 	}, [isOpen]);
 
-	function handleChange(event) {
+	const handleChange = event => {
 		const { name, value, validity, validationMessage } = event.target;
 		setValues({ ...values, [name]: value });
 		setErrors({ ...errors, [name]: validationMessage });
-		setValid({ ...isValid, [name]: validity.valid });
-	}
+		setValidly({ ...validly, [name]: validity.valid });
+	};
 
-	function handleSubmit(e) {
+	const handleSubmit = e => {
 		e.preventDefault();
 		onAddPlace(values, e);
-	}
+	};
+
+	const buttonText = isLoading ? 'Создание...' : 'Создать';
 
 	return (
 		<PopupWithForm
 			isOpen={isOpen}
 			name="card"
 			title="Новое место"
-			buttonText={isLoading ? 'Создание...' : 'Создать'}
+			buttonText={buttonText}
 			onSubmit={handleSubmit}
 			onClose={onClose}
-			isDisabled={!(isValid.name && isValid.link)}
+			isDisabled={!(validly.name && validly.link)}
 		>
 			<Input
 				className="card-name"
@@ -42,8 +45,8 @@ export default function AddNewPlacePopup({ isOpen, onAddPlace, isLoading, onClos
 				value={values.name}
 				handleChange={handleChange}
 				required
-				minLength="2"
-				maxLength="40"
+				minLength={2}
+				maxLength={40}
 				autoComplete="off"
 				validationMessage={errors.name}
 			/>
@@ -60,4 +63,4 @@ export default function AddNewPlacePopup({ isOpen, onAddPlace, isLoading, onClos
 			/>
 		</PopupWithForm>
 	);
-}
+};

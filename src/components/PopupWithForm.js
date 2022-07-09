@@ -1,4 +1,4 @@
-export default function PopupWithForm({
+export const PopupWithForm = ({
 	title,
 	name,
 	isOpen,
@@ -7,7 +7,7 @@ export default function PopupWithForm({
 	buttonText,
 	onSubmit,
 	isDisabled,
-}) {
+}) => {
 	return (
 		<section className={`popup ${name}-popup ${isOpen && 'popup_opened'}`}>
 			<div className="popup__overlay" onClick={onClose}></div>
@@ -29,4 +29,4 @@ export default function PopupWithForm({
 			</form>
 		</section>
 	);
-}
+};

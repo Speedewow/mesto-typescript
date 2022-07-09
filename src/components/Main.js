@@ -1,8 +1,8 @@
-import Card from './Card';
+import { Card } from './Card';
 import { useContext } from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
-export default function Main({
+export const Main = ({
 	onEditAvatar,
 	onEditProfile,
 	onAddPlace,
@@ -10,14 +10,14 @@ export default function Main({
 	onCardClick,
 	onCardLike,
 	onCardDelete,
-}) {
+}) => {
 	const { avatar, name, about } = useContext(CurrentUserContext);
 	return (
 		<main className="main">
 			<section className="profile">
 				<div className="profile__avatar">
 					<button className="profile__avatar-edit-button" onClick={onEditAvatar}></button>
-					<div className="profile__image" style={{ backgroundImage: `url(${avatar})` }} />
+					<img className="profile__image" src={avatar} alt={name} />
 				</div>
 				<div className="profile__info">
 					<h1 className="profile__title">{name}</h1>
@@ -41,4 +41,4 @@ export default function Main({
 			</section>
 		</main>
 	);
-}
+};
