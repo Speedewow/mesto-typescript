@@ -21,7 +21,7 @@ export const PopupWithForm = ({
 				<h2 className="popup__title">{title}</h2>
 				<fieldset className="popup__fieldset">{children}</fieldset>
 				<button
-					className={`popup__submit-button ${isDisabled ? 'popup__submit-button_disabled' : ''}`}
+					className={`popup__submit-button ${isDisabled && 'popup__submit-button_disabled'}`}
 					disabled={isDisabled}
 				>
 					{buttonText}
