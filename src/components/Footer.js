@@ -1,7 +1,9 @@
+import { FooterStyled } from './styled/Footer.styled';
+
 export const Footer = () => {
 	return (
-		<footer className="footer">
-			<p className="footer__copyright">© 2022 Mesto Russia</p>
-		</footer>
+		<FooterStyled>
+			<p>© 2022 Mesto Russia</p>
+		</FooterStyled>
 	);
 };

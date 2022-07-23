@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthStyled } from './styled/Auth.styled';
+import { SubmitAuthButton } from './styled/Buttons.styled';
+import { InputStyled } from './styled/Input.styled';
 
 export const Register = ({ onRegister }) => {
 	const [values, setValues] = useState({ email: '', password: '' });
@@ -15,11 +18,12 @@ export const Register = ({ onRegister }) => {
 	};
 
 	return (
-		<section className="auth">
-			<h1 className="auth__title">Регистрация</h1>
-			<form className="auth__form" onSubmit={handleSubmit}>
-				<input
-					className="auth__input"
+		<AuthStyled>
+			<h1>Регистрация</h1>
+			<form onSubmit={handleSubmit}>
+				<InputStyled
+					color="#ccc"
+					margin="20px 0 0"
 					type="email"
 					placeholder="E-mail"
 					autoComplete="off"
@@ -27,8 +31,9 @@ export const Register = ({ onRegister }) => {
 					value={values.email}
 					onChange={handleChange}
 				/>
-				<input
-					className="auth__input"
+				<InputStyled
+					color="#ccc"
+					margin="20px 0 0"
 					type="password"
 					placeholder="Пароль"
 					autoComplete="off"
@@ -36,16 +41,12 @@ export const Register = ({ onRegister }) => {
 					value={values.password}
 					onChange={handleChange}
 				/>
-				<button className="auth__submit-button" type="submit">
-					Зарегистрироваться
-				</button>
+				<SubmitAuthButton>Зарегистрироваться</SubmitAuthButton>
 				<p>
 					Уже зарегистрированы?&nbsp;
-					<Link to="/sing-in" className="auth__link">
-						Войти
-					</Link>
+					<Link to="/sing-in">Войти</Link>
 				</p>
 			</form>
-		</section>
+		</AuthStyled>
 	);
 };

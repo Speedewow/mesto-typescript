@@ -1,6 +1,11 @@
 import { Card } from './Card';
 import { useContext } from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import { MainStyled } from './styled/Main.styled';
+import { AvatarButton, EditButton, AddButton } from './styled/Buttons.styled';
+import { AvatarContainer, ProfileContainer } from './styled/Container.styled';
+import { Profile } from './styled/Profile.styled';
+import { Cards } from './styled/Cards.styled';
 
 export const Main = ({
 	onEditAvatar,
@@ -13,21 +18,21 @@ export const Main = ({
 }) => {
 	const { avatar, name, about } = useContext(CurrentUserContext);
 	return (
-		<main className="main">
-			<section className="profile">
-				<div className="profile__avatar">
-					<button className="profile__avatar-edit-button" onClick={onEditAvatar}></button>
-					<img className="profile__image" src={avatar} alt={name} />
-				</div>
-				<div className="profile__info">
-					<h1 className="profile__title">{name}</h1>
-					<button className="profile__edit-button" onClick={onEditProfile}></button>
-					<p className="profile__subtitle">{about}</p>
-				</div>
-				<button className="profile__button" onClick={onAddPlace}></button>
-			</section>
-			<section>
-				<ul className="cards">
+		<MainStyled>
+			<Profile>
+				<AvatarContainer>
+					<AvatarButton onClick={onEditAvatar} />
+					<img src={avatar} alt={name} />
+				</AvatarContainer>
+				<ProfileContainer>
+					<h1>{name}</h1>
+					<EditButton onClick={onEditProfile} />
+					<p>{about}</p>
+				</ProfileContainer>
+				<AddButton onClick={onAddPlace} />
+			</Profile>
+			<Cards>
+				<ul>
 					{cards.map(card => (
 						<Card
 							key={card._id}
@@ -38,7 +43,7 @@ export const Main = ({
 						/>
 					))}
 				</ul>
-			</section>
-		</main>
+			</Cards>
+		</MainStyled>
 	);
 };

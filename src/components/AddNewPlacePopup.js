@@ -30,7 +30,6 @@ export const AddNewPlacePopup = ({ isOpen, onAddPlace, isLoading, onClose }) => 
 	return (
 		<PopupWithForm
 			isOpen={isOpen}
-			name="card"
 			title="Новое место"
 			buttonText={buttonText}
 			onSubmit={handleSubmit}
@@ -38,7 +37,6 @@ export const AddNewPlacePopup = ({ isOpen, onAddPlace, isLoading, onClose }) => 
 			isDisabled={!(validly.name && validly.link)}
 		>
 			<Input
-				className="card-name"
 				name="name"
 				placeholder="Название"
 				type="text"
@@ -51,7 +49,6 @@ export const AddNewPlacePopup = ({ isOpen, onAddPlace, isLoading, onClose }) => 
 				validationMessage={errors.name}
 			/>
 			<Input
-				className="card-link"
 				name="link"
 				placeholder="Ссылка на картинку"
 				type="url"

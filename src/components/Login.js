@@ -1,4 +1,8 @@
 import { useState } from 'react';
+import { AuthStyled } from './styled/Auth.styled';
+import { SubmitAuthButton } from './styled/Buttons.styled';
+import { InputStyled } from './styled/Input.styled';
+
 export const Login = ({ onLogin }) => {
 	const [values, setValues] = useState({ email: '', password: '' });
 
@@ -13,11 +17,12 @@ export const Login = ({ onLogin }) => {
 	};
 
 	return (
-		<section className="auth">
-			<h1 className="auth__title">Вход</h1>
-			<form className="auth__form" onSubmit={handleSubmit}>
-				<input
-					className="auth__input"
+		<AuthStyled>
+			<h1>Вход</h1>
+			<form onSubmit={handleSubmit}>
+				<InputStyled
+					color="#ccc"
+					margin="20px 0 0"
 					type="email"
 					placeholder="E-mail"
 					autoComplete="off"
@@ -25,8 +30,9 @@ export const Login = ({ onLogin }) => {
 					value={values.email}
 					onChange={handleChange}
 				/>
-				<input
-					className="auth__input"
+				<InputStyled
+					color="#ccc"
+					margin="20px 0 0"
 					type="password"
 					placeholder="Пароль"
 					autoComplete="off"
@@ -34,10 +40,8 @@ export const Login = ({ onLogin }) => {
 					value={values.password}
 					onChange={handleChange}
 				/>
-				<button className="auth__submit-button" type="submit">
-					Войти
-				</button>
+				<SubmitAuthButton>Войти</SubmitAuthButton>
 			</form>
-		</section>
+		</AuthStyled>
 	);
 };

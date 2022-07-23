@@ -12,7 +12,6 @@ export const ConfirmPopup = ({ card, onCardDelete, isLoading, onClose }) => {
 		<PopupWithForm
 			isOpen={card.isOpen}
 			onClose={onClose}
-			name="confirm"
 			title="Вы уверены?"
 			buttonText={buttonText}
 			onSubmit={handleSubmit}

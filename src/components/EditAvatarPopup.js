@@ -28,7 +28,6 @@ export const EditAvatarPopup = ({ isOpen, onUpdateAvatar, isLoading, onClose }) 
 	return (
 		<PopupWithForm
 			isOpen={isOpen}
-			name="avatar"
 			title="Обновить аватар"
 			buttonText={buttonText}
 			onSubmit={handleSubmit}
@@ -36,7 +35,6 @@ export const EditAvatarPopup = ({ isOpen, onUpdateAvatar, isLoading, onClose }) 
 			isDisabled={!validly.link}
 		>
 			<Input
-				className="avatar-link"
 				name="link"
 				placeholder="Ссылка на картинку"
 				type="url"

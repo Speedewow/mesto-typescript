@@ -14,6 +14,7 @@ import { ImagePopup } from './ImagePopup';
 import { InfoTooltip } from './InfoTooltip';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import { getSingIn, getSingUp, getLoginData } from '../utils/AuthApi';
+import GlobalStyles from './styled/global/GlobalStyles';
 import successImage from '../images/success.svg';
 import failureImage from '../images/failure.svg';
 import {
@@ -54,9 +55,7 @@ export const App = () => {
 			e.key === 'Escape' && closeAllPopups(e);
 		};
 		document.addEventListener('keydown', closeByKey);
-		return () => {
-			document.removeEventListener('keydown', closeByKey);
-		};
+		return () => document.removeEventListener('keydown', closeByKey);
 	}, []);
 
 	useEffect(() => {
@@ -236,6 +235,7 @@ export const App = () => {
 				<ImagePopup card={selectedCard} onClose={closeAllPopups} />
 				<InfoTooltip info={infoTooltip} onClose={closeAllPopups} />
 			</CurrentUserContext.Provider>
+			<GlobalStyles />
 		</>
 	);
 };

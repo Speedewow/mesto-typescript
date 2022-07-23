@@ -1,12 +1,12 @@
 import { useContext } from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import { Container } from './styled/Container.styled';
+import { LikeButton, DeleteButton } from './styled/Buttons.styled';
 
 export const Card = ({ card, onCardClick, onCardLike, onCardDelete }) => {
 	const { _id } = useContext(CurrentUserContext);
 	const isOwn = card.owner._id === _id;
-	const cardDeleteButtonClassName = `card__delete-button ${!isOwn && 'card__delete-button_hidden'}`;
 	const isLiked = card.likes.some(like => like._id === _id);
-	const cardLikeButtonClassName = `card__button ${isLiked && 'card__button_active'}`;
 
 	const handleCardClick = () => {
 		onCardClick(card);
@@ -21,16 +21,16 @@ export const Card = ({ card, onCardClick, onCardLike, onCardDelete }) => {
 	};
 
 	return (
-		<li className="card">
-			<button className={cardDeleteButtonClassName} onClick={handleCardDelete}></button>
-			<img className="card__image" src={card.link} onClick={handleCardClick} alt={card.name} />
-			<div className="card__container">
-				<h2 className="card__title">{card.name}</h2>
-				<div className="card__like-container">
-					<button className={cardLikeButtonClassName} onClick={handleLikeClick}></button>
-					<span className="card__like-counter">{card.likes.length}</span>
-				</div>
-			</div>
+		<li>
+			<DeleteButton isOwn={isOwn} onClick={handleCardDelete} />
+			<img src={card.link} onClick={handleCardClick} alt={card.name} />
+			<Container display="flex" justifyContent="space-between" margin="20px 20px 26px">
+				<h2>{card.name}</h2>
+				<Container display="flex" flexDirection="column" gap="3px">
+					<LikeButton isActive={isLiked} onClick={handleLikeClick} />
+					<span>{card.likes.length}</span>
+				</Container>
+			</Container>
 		</li>
 	);
 };

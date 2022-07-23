@@ -32,7 +32,6 @@ export const EditProfilePopup = ({ isOpen, onUpdateUser, isLoading, onClose }) =
 	return (
 		<PopupWithForm
 			isOpen={isOpen}
-			name="profile"
 			title="Редактировать профиль"
 			buttonText={buttonText}
 			onSubmit={handleSubmit}
@@ -40,7 +39,6 @@ export const EditProfilePopup = ({ isOpen, onUpdateUser, isLoading, onClose }) =
 			isDisabled={!(validly.name && validly.about)}
 		>
 			<Input
-				className="profile-name"
 				name="name"
 				placeholder="Введите имя"
 				type="text"
@@ -54,7 +52,6 @@ export const EditProfilePopup = ({ isOpen, onUpdateUser, isLoading, onClose }) =
 			/>
 
 			<Input
-				className="profile-info"
 				name="about"
 				placeholder="Введите профессию"
 				type="text"

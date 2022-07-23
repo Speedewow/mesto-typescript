@@ -1,14 +1,15 @@
+import { InputStyled, Error } from './styled/Input.styled';
+
 export const Input = ({ className, name, value, handleChange, validationMessage, ...props }) => (
 	<>
-		<input
+		<InputStyled
 			{...props}
-			className={`popup__input ${className}-input`}
+			color="#000"
+			margin="13px 0 0"
 			name={name}
 			value={value || ''}
 			onChange={handleChange}
 		/>
-		<span name={name} className={`popup__error ${className}-error`}>
-			{validationMessage}
-		</span>
+		<Error name={name}>{validationMessage}</Error>
 	</>
 );
