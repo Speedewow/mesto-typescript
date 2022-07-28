@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import { colors } from '../colors';
 
 export default createGlobalStyle`
 * , h1{
@@ -10,8 +11,8 @@ body {
 	font-family: 'Inter', sans-serif;
 	padding: 0 20px;
 	min-height: 100vh;
-  color: #fff;
-  background-color: #000;
+  color: ${colors.white};
+  background-color: ${colors.black};
 }
 
 @media screen and (max-width: 879px) {

@@ -1,14 +1,13 @@
 import styled from 'styled-components';
 
 export const Section = styled.section`
-	display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
-	color: #fff;
-	flex-direction: column;
-	align-items: center;
-	gap: 5px;
-	margin: 0 0 15px;
+  display: ${({ display }) => display};
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  margin: 15px 0;
 
-	@media screen and (min-width: 600px) {
-		display: none;
-	}
+  @media screen and (min-width: 600px) {
+    display: none;
+  }
 `;
